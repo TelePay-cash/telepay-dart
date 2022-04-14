@@ -1,6 +1,6 @@
 name: telepay
 description: Telepay payment gateway integration.
-version: 1.0.0+1
+version: 0.0.0
 publish_to: none
 
 environment:
