@@ -1,0 +1,19 @@
+{
+  "version": "1.0",
+  "merchant": {
+    "name": "Test Dart-SDK",
+    "url": "https://github.com/TelePay-cash/",
+    "logo_url": "https://ik.imagekit.io/telepay/merchants/png-clipart-dart-google-chrome-web-application-flutter-darts-blue-angle_5Qf56Th2c.png",
+    "logo_thumbnail_url": "https://ik.imagekit.io/telepay/tr:n-media_library_thumbnail/merchants/png-clipart-dart-google-chrome-web-application-flutter-darts-blue-angle_5Qf56Th2c.png",
+    "verified": false,
+    "username": "test-dart-sdk",
+    "public_profile": "https://telepay.cash/to/test-dart-sdk",
+    "owner": {
+      "first_name": "Tele",
+      "last_name": "Pay",
+      "username": "Cash"
+    },
+    "created_at": "2022-04-27T15:01:01.196178Z",
+    "updated_at": "2022-04-29T21:26:54.915056Z"
+  }
+}
