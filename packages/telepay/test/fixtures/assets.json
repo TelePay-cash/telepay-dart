@@ -1,0 +1,25 @@
+{
+  "assets": [
+    {
+      "asset": "TON",
+      "blockchain": "TON",
+      "url": "https://ton.org",
+      "networks": [
+        "mainnet",
+        "testnet"
+      ]
+    },
+    {
+      "asset": "HIVE",
+      "blockchain": "HIVE",
+      "url": "https://hive.io",
+      "networks": []
+    },
+    {
+      "asset": "HBD",
+      "blockchain": "HIVE",
+      "url": "https://hive.ausbit.dev/hbd",
+      "networks": []
+    }
+  ]
+}
