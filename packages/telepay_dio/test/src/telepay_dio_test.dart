@@ -625,5 +625,208 @@ void main() {
         );
       });
     });
+
+    group('cancelInvoice', () {
+      final invoices =
+          jsonDecode(fixture('invoices.json')) as Map<String, dynamic>;
+      final invoiceResponse = (invoices['invoices'] as List<dynamic>)
+          .cast<Map<String, dynamic>>()
+          .first;
+
+      const invoiceNumber = 'PUEOS5RFQY';
+      const cancelInvoicePath = 'cancelInvoice/$invoiceNumber';
+
+      test('should return the [Invoice] that was canceled', () async {
+        when(
+          () => dio.post<Map<String, dynamic>>(
+            cancelInvoicePath,
+            options: any<Options>(named: 'options'),
+          ),
+        ).thenAnswer(
+          (_) async => Response(
+            requestOptions: RequestOptions(
+              path: cancelInvoicePath,
+              data: invoiceResponse,
+            ),
+            statusCode: 200,
+            data: invoiceResponse,
+          ),
+        );
+
+        final invoice = await telepay.cancelInvoice(invoiceNumber);
+
+        expect(
+          invoice,
+          Invoice.fromJson(invoiceResponse),
+        );
+        verify(
+          () => dio.post<Map<String, dynamic>>(
+            cancelInvoicePath,
+            options: any<Options>(named: 'options'),
+          ),
+        ).called(1);
+      });
+
+      test('should throw [UnauthorizedException] when the statusCode is 403',
+          () async {
+        when(
+          () => dio.post<Map<String, dynamic>>(
+            cancelInvoicePath,
+            options: any<Options>(named: 'options'),
+          ),
+        ).thenThrow(
+          DioError(
+            requestOptions: RequestOptions(path: cancelInvoicePath),
+            response: Response<Map<String, dynamic>>(
+              requestOptions: RequestOptions(path: cancelInvoicePath),
+              statusCode: 403,
+              data: <String, dynamic>{'detail': 'Invalid secret key'},
+            ),
+          ),
+        );
+
+        expect(
+          () => telepay.cancelInvoice(invoiceNumber),
+          throwsA(
+            isA<UnauthorizedException>().having(
+              (e) => e.message,
+              'message',
+              'Invalid secret key',
+            ),
+          ),
+        );
+      });
+
+      test(
+          'should throw [TelePayException] when the statusCode '
+          'is diferent the 403', () async {
+        when(
+          () => dio.post<Map<String, dynamic>>(
+            cancelInvoicePath,
+            options: any<Options>(named: 'options'),
+          ),
+        ).thenThrow(
+          DioError(
+            requestOptions: RequestOptions(path: cancelInvoicePath),
+            response: Response<Map<String, dynamic>>(
+              requestOptions: RequestOptions(path: cancelInvoicePath),
+              statusCode: 500,
+              data: <String, dynamic>{'detail': 'Internal server error'},
+            ),
+          ),
+        );
+
+        expect(
+          () => telepay.cancelInvoice(invoiceNumber),
+          throwsA(
+            isA<TelePayException>().having(
+              (e) => e.message,
+              'message',
+              'Failed to get balance: \n'
+                  'STATUS_CODE: 500 \n'
+                  'RESPONSE: {detail: Internal server error}',
+            ),
+          ),
+        );
+      });
+    });
+
+    group('deleteInvoice', () {
+      final deleteResponse = <String, dynamic>{'status': 'deleted'};
+
+      const invoiceNumber = 'PUEOS5RFQY';
+      const deleteInvoicePath = 'deleteInvoice/$invoiceNumber';
+
+      test('should return `true` when the invoice was delete', () async {
+        when(
+          () => dio.post<Map<String, dynamic>>(
+            deleteInvoicePath,
+            options: any<Options>(named: 'options'),
+          ),
+        ).thenAnswer(
+          (_) async => Response(
+            requestOptions: RequestOptions(
+              path: deleteInvoicePath,
+              data: deleteResponse,
+            ),
+            statusCode: 200,
+            data: deleteResponse,
+          ),
+        );
+
+        expect(await telepay.deleteInvoice(invoiceNumber), isTrue);
+
+        verify(
+          () => dio.post<Map<String, dynamic>>(
+            deleteInvoicePath,
+            options: any<Options>(named: 'options'),
+          ),
+        ).called(1);
+      });
+
+      test('should throw [UnauthorizedException] when the statusCode is 403',
+          () async {
+        when(
+          () => dio.post<Map<String, dynamic>>(
+            deleteInvoicePath,
+            options: any<Options>(named: 'options'),
+          ),
+        ).thenThrow(
+          DioError(
+            requestOptions: RequestOptions(path: deleteInvoicePath),
+            response: Response<Map<String, dynamic>>(
+              requestOptions: RequestOptions(path: deleteInvoicePath),
+              statusCode: 403,
+              data: <String, dynamic>{'detail': 'Invalid secret key'},
+            ),
+          ),
+        );
+
+        expect(
+          () => telepay.deleteInvoice(invoiceNumber),
+          throwsA(
+            isA<UnauthorizedException>().having(
+              (e) => e.message,
+              'message',
+              'Invalid secret key',
+            ),
+          ),
+        );
+      });
+
+      test(
+          'should throw [TelePayException] when the statusCode '
+          'is diferent the 403', () async {
+        when(
+          () => dio.post<Map<String, dynamic>>(
+            deleteInvoicePath,
+            options: any<Options>(named: 'options'),
+          ),
+        ).thenThrow(
+          DioError(
+            requestOptions: RequestOptions(path: deleteInvoicePath),
+            response: Response<Map<String, dynamic>>(
+              requestOptions: RequestOptions(path: deleteInvoicePath),
+              statusCode: 500,
+              data: <String, dynamic>{'detail': 'Internal server error'},
+            ),
+          ),
+        );
+
+        expect(
+          () => telepay.deleteInvoice(invoiceNumber),
+          throwsA(
+            isA<TelePayException>().having(
+              (e) => e.message,
+              'message',
+              'Failed to get balance: \n'
+                  'STATUS_CODE: 500 \n'
+                  'RESPONSE: {detail: Internal server error}',
+            ),
+          ),
+        );
+      });
+    });
+
   });
 }
