@@ -13,19 +13,19 @@ class Invoice extends Equatable {
     required this.number,
     required this.asset,
     required this.blockchain,
-    required this.network,
+    this.network,
     required this.status,
     required this.amount,
     this.description,
     this.hiddenMessage,
     this.metadata,
-    required this.checkoutUrl,
+    this.checkoutUrl,
     this.successUrl,
     this.cancelUrl,
     this.explorerUrl,
-    required this.expiresAt,
+    this.expiresAt,
     required this.createdAt,
-    required this.updatedAt,
+    this.updatedAt,
   });
 
   factory Invoice.fromJson(Map<String, dynamic> json) =>
@@ -42,7 +42,9 @@ class Invoice extends Equatable {
   /// The blockchain network, on which the asset is located.
   ///
   /// Examples: "testnet" and "mainnet" in TON.
-  final String network;
+  final String? network;
+
+  /// The invoice status
   final String status;
 
   /// The invoice amount.
@@ -50,24 +52,32 @@ class Invoice extends Equatable {
 
   /// The invoice description.
   final String? description;
+
+  /// The invoice hidden message.
   final String? hiddenMessage;
 
   /// The invoice attached metadata.
   final Map<String, dynamic>? metadata;
-  final String checkoutUrl;
+
+  /// The invoice checkout url.
+  final String? checkoutUrl;
 
   /// The URL to which the user is redirected to when the invoice is completed.
   final String? successUrl;
 
   /// The URL to which the user is redirected to when the invoice is cancelled.
   final String? cancelUrl;
+
+  /// The URL the blockchange explorer.
   final String? explorerUrl;
 
-  /// Minutes to invoice expiration.
-  ///
-  /// If not defined, default is 600 minutes (10 hours).
-  final DateTime expiresAt;
+  /// The invoice expiration date.
+  final DateTime? expiresAt;
+
+  /// The invoice creation date.
   final DateTime createdAt;
+
+  /// The invoice last update date.
   final DateTime? updatedAt;
 
   Map<String, dynamic> toJson() => _$InvoiceToJson(this);
