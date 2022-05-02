@@ -1,6 +1,6 @@
 name: telepay
 description: Dart API Client wich wraps the TelePay API
-version: 1.0.0+1
+version: 0.0.1
 publish_to: none
 
 environment:
