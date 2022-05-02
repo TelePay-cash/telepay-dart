@@ -217,7 +217,7 @@ void main() {
     group('getInvoices', () {
       final invoicesResponse =
           jsonDecode(fixture('invoices.json')) as Map<String, dynamic>;
-      final balanceJson = (invoicesResponse['invoices'] as List<dynamic>)
+      final invoicesJson = (invoicesResponse['invoices'] as List<dynamic>)
           .cast<Map<String, dynamic>>();
 
       test('should return [Invoice] list when the statusCode is equeal to 200',
@@ -235,11 +235,11 @@ void main() {
           ),
         );
 
-        final balance = await telepay.getInvoices();
+        final invoices = await telepay.getInvoices();
 
         expect(
-          balance,
-          balanceJson.map(Invoice.fromJson).toList(),
+          invoices,
+          invoicesJson.map(Invoice.fromJson).toList(),
         );
         verify(
           () => dio.get<Map<String, dynamic>>(
@@ -300,6 +300,109 @@ void main() {
 
         expect(
           () => telepay.getInvoices(),
+          throwsA(
+            isA<TelePayException>().having(
+              (e) => e.message,
+              'message',
+              'Failed to get balance: \n'
+                  'STATUS_CODE: 500 \n'
+                  'RESPONSE: {detail: Internal server error}',
+            ),
+          ),
+        );
+      });
+    });
+
+    group('getInvoice', () {
+      final invoices =
+          jsonDecode(fixture('invoices.json')) as Map<String, dynamic>;
+      final invoiceResponse = (invoices['invoices'] as List<dynamic>)
+          .cast<Map<String, dynamic>>()
+          .first;
+
+      const invoiceNumber = 'PUEOS5RFQY';
+      const getInvoicePath = 'getInvoice/$invoiceNumber';
+
+      test('should return [Invoice] list when the statusCode is equeal to 200',
+          () async {
+        when(
+          () => dio.get<Map<String, dynamic>>(
+            getInvoicePath,
+            options: any<Options>(named: 'options'),
+          ),
+        ).thenAnswer(
+          (_) async => Response(
+            requestOptions: RequestOptions(path: 'getInvoice'),
+            statusCode: 200,
+            data: invoiceResponse,
+          ),
+        );
+
+        final invoice = await telepay.getInvoice(invoiceNumber);
+
+        expect(
+          invoice,
+          Invoice.fromJson(invoiceResponse),
+        );
+        verify(
+          () => dio.get<Map<String, dynamic>>(
+            getInvoicePath,
+            options: any<Options>(named: 'options'),
+          ),
+        ).called(1);
+      });
+
+      test('should throw [UnauthorizedException] when the statusCode is 403',
+          () async {
+        when(
+          () => dio.get<Map<String, dynamic>>(
+            getInvoicePath,
+            options: any<Options>(named: 'options'),
+          ),
+        ).thenThrow(
+          DioError(
+            requestOptions: RequestOptions(path: getInvoicePath),
+            response: Response<Map<String, dynamic>>(
+              requestOptions: RequestOptions(path: getInvoicePath),
+              statusCode: 403,
+              data: <String, dynamic>{'detail': 'Invalid secret key'},
+            ),
+          ),
+        );
+
+        expect(
+          () => telepay.getInvoice(invoiceNumber),
+          throwsA(
+            isA<UnauthorizedException>().having(
+              (e) => e.message,
+              'message',
+              'Invalid secret key',
+            ),
+          ),
+        );
+      });
+
+      test(
+          'should throw [TelePayException] when the statusCode '
+          'is diferent the 403', () async {
+        when(
+          () => dio.get<Map<String, dynamic>>(
+            getInvoicePath,
+            options: any<Options>(named: 'options'),
+          ),
+        ).thenThrow(
+          DioError(
+            requestOptions: RequestOptions(path: getInvoicePath),
+            response: Response<Map<String, dynamic>>(
+              requestOptions: RequestOptions(path: getInvoicePath),
+              statusCode: 500,
+              data: <String, dynamic>{'detail': 'Internal server error'},
+            ),
+          ),
+        );
+
+        expect(
+          () => telepay.getInvoice(invoiceNumber),
           throwsA(
             isA<TelePayException>().having(
               (e) => e.message,

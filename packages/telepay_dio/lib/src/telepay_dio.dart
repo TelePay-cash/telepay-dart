@@ -82,6 +82,22 @@ class TelePayDio extends TelePay {
   }
 
   @override
+  Future<Invoice> getInvoice(String invoiceNumber) async {
+    try {
+      final response = await _dio.get<Map<String, dynamic>>(
+        'getInvoice/$invoiceNumber',
+        options: Options(headers: _headers()),
+      );
+      if (response.statusCode == 200 && response.data != null) {
+        return Invoice.fromJson(response.data!);
+      }
+    } on DioError catch (e) {
+      _handlerError(e);
+    }
+    throw const TelePayException('Failed to get invoices info');
+  }
+
+  @override
   Future<List<Asset>> getAssets() async {
     try {
       final response = await _dio.get<Map<String, dynamic>>(
