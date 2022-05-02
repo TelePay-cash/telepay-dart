@@ -49,3 +49,22 @@ class NotFoundException extends TelePayException {
   @override
   String toString() => 'NotFoundException(message: $message)';
 }
+
+/// {@template insufficient_funds_error}
+/// The exception is thrown when is insufficientt fonds.
+///
+/// Response form the server:
+/// ```json
+/// {
+///   "error": "insufficient-funds",
+///   "message": "Insufficient funds to transfer"
+/// }
+/// ```
+/// {@endtemplate}
+class InsufficienttFondsException extends TelePayException {
+  /// {@macro insufficient_funds_error}
+  const InsufficienttFondsException(String message) : super(message);
+
+  @override
+  String toString() => 'InsufficienttFondsException(message: $message)';
+}

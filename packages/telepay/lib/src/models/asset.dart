@@ -1,13 +1,3 @@
-// {
-//  "asset": "TON",
-//  "blockchain": "TON",
-//  "url": "https://ton.org",
-//  "networks": [
-//    "mainnet",
-//    "testnet"
-//  ]
-//}
-
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -24,9 +14,16 @@ class Asset extends Equatable {
 
   factory Asset.fromJson(Map<String, dynamic> json) => _$AssetFromJson(json);
 
+  /// The asset name.
   final String asset;
+
+  /// The blockchain on which the asset is located.
   final String blockchain;
+
+  /// The URL of the blockchain.
   final String url;
+
+  /// The network on which the asset is located.
   final List<String> networks;
 
   Map<String, dynamic> toJson() => _$AssetToJson(this);
