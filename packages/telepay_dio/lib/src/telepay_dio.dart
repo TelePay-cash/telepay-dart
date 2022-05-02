@@ -171,7 +171,7 @@ class TelePayDio extends TelePay {
         options: Options(headers: _headers()),
       );
       if (response.statusCode == 200 && response.data != null) {
-        return response.data!['status'] == 'delete';
+        return response.data!['status'] as String == 'deleted';
       }
     } on DioError catch (e) {
       _handlerError(e);

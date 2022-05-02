@@ -514,5 +514,116 @@ void main() {
         );
       });
     });
+
+    group('createInvoice', () {
+      final invoices =
+          jsonDecode(fixture('invoices.json')) as Map<String, dynamic>;
+      final invoiceResponse = (invoices['invoices'] as List<dynamic>)
+          .cast<Map<String, dynamic>>()
+          .first;
+
+      final createInvoiceJson =
+          jsonDecode(fixture('create_invoice.json')) as Map<String, dynamic>;
+      final createInvoiceModel = CreateInvoice.fromJson(createInvoiceJson);
+
+      test('should return a [Invoice] when the statusCode is equeal to 200',
+          () async {
+        when(
+          () => dio.post<Map<String, dynamic>>(
+            'createInvoice',
+            data: createInvoiceModel.toJson(),
+            options: any<Options>(named: 'options'),
+          ),
+        ).thenAnswer(
+          (_) async => Response(
+            requestOptions: RequestOptions(
+              path: 'createInvoice',
+              data: invoiceResponse,
+            ),
+            statusCode: 200,
+            data: invoiceResponse,
+          ),
+        );
+
+        final invoice = await telepay.createInvoice(createInvoiceModel);
+
+        expect(
+          invoice,
+          Invoice.fromJson(invoiceResponse),
+        );
+        verify(
+          () => dio.post<Map<String, dynamic>>(
+            'createInvoice',
+            data: createInvoiceModel.toJson(),
+            options: any<Options>(named: 'options'),
+          ),
+        ).called(1);
+      });
+
+      test('should throw [UnauthorizedException] when the statusCode is 403',
+          () async {
+        when(
+          () => dio.post<Map<String, dynamic>>(
+            'createInvoice',
+            options: any<Options>(named: 'options'),
+            data: createInvoiceModel.toJson(),
+          ),
+        ).thenThrow(
+          DioError(
+            requestOptions: RequestOptions(path: 'createInvoice'),
+            response: Response<Map<String, dynamic>>(
+              requestOptions: RequestOptions(path: 'createInvoice'),
+              statusCode: 403,
+              data: <String, dynamic>{'detail': 'Invalid secret key'},
+            ),
+          ),
+        );
+
+        expect(
+          () => telepay.createInvoice(createInvoiceModel),
+          throwsA(
+            isA<UnauthorizedException>().having(
+              (e) => e.message,
+              'message',
+              'Invalid secret key',
+            ),
+          ),
+        );
+      });
+
+      test(
+          'should throw [TelePayException] when the statusCode '
+          'is diferent the 403', () async {
+        when(
+          () => dio.post<Map<String, dynamic>>(
+            'createInvoice',
+            options: any<Options>(named: 'options'),
+            data: createInvoiceModel.toJson(),
+          ),
+        ).thenThrow(
+          DioError(
+            requestOptions: RequestOptions(path: 'createInvoice'),
+            response: Response<Map<String, dynamic>>(
+              requestOptions: RequestOptions(path: 'createInvoice'),
+              statusCode: 500,
+              data: <String, dynamic>{'detail': 'Internal server error'},
+            ),
+          ),
+        );
+
+        expect(
+          () => telepay.createInvoice(createInvoiceModel),
+          throwsA(
+            isA<TelePayException>().having(
+              (e) => e.message,
+              'message',
+              'Failed to get balance: \n'
+                  'STATUS_CODE: 500 \n'
+                  'RESPONSE: {detail: Internal server error}',
+            ),
+          ),
+        );
+      });
+    });
   });
 }
