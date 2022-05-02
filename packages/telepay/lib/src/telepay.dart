@@ -49,11 +49,7 @@ abstract class TelePay {
   ]);
 
   /// Get estimated withdraw fee, composed of blockchain fee and processing fee.
-  Future<Fee> getWithdrawFee({
-    required String asset,
-    required String blockchain,
-    required String network,
-  });
+  Future<Fee> getWithdrawFee(CreateWithdraw withdraw);
 
   /// Withdraw funds from merchant wallet to external wallet.
   Future<bool> withdraw({required CreateWithdraw withdraw});
