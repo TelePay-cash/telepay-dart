@@ -26,6 +26,9 @@ abstract class TelePay {
   /// Get your merchant invoices.
   Future<List<Invoice>> getInvoices();
 
+  /// Get invoice details, by ID.
+  Future<Invoice> getInvoice(String invoiceNumber);
+
   /// Creates an invoice, associated to your merchant.
   Future<Invoice> createInvoice(CreateInvoice invoice);
 
