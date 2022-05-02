@@ -154,7 +154,7 @@ class TelePayDio extends TelePay {
         data: invoice.toJson(),
         options: Options(headers: _headers()),
       );
-      if (response.statusCode == 200 && response.data != null) {
+      if (response.statusCode == 201 && response.data != null) {
         return Invoice.fromJson(response.data!);
       }
     } on DioError catch (e) {
