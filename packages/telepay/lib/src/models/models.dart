@@ -1,4 +1,8 @@
 export 'asset.dart';
+export 'create_invoice.dart';
+export 'create_transfer.dart';
+export 'create_withdraw.dart';
+export 'fee.dart';
 export 'invoice.dart';
 export 'merchant.dart';
 export 'owner.dart';

@@ -1,29 +1,14 @@
-// {
-//  "number": "GB9Q1QEKZB",
-//  "asset": "TON",
-//  "blockchain": "TON",
-//  "network": "testnet",
-//  "status": "expired",
-//  "amount": "0.010000000000000000",
-//  "description": "First invoice",
-//  "hidden_message": null,
-//  "metadata": null,
-//  "checkout_url": "https://telepay.cash/checkout/GB9Q1QEKZB",
-//  "success_url": null,
-//  "cancel_url": null,
-//  "explorer_url": null,
-//  "expires_at": "2022-04-29T21:57:09.947377Z",
-//  "created_at": "2022-04-29T21:42:09.947450Z",
-//  "updated_at": "2022-04-29T21:57:11.154336Z"
-//}
-
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'invoice.g.dart';
 
+/// {@template invoice}
+/// Invoice model.
+/// {@endtemplate}
 @JsonSerializable(explicitToJson: true, fieldRename: FieldRename.snake)
 class Invoice extends Equatable {
+  /// {@macro invoice}
   const Invoice({
     required this.number,
     required this.asset,
@@ -31,13 +16,13 @@ class Invoice extends Equatable {
     required this.network,
     required this.status,
     required this.amount,
-    required this.description,
-    required this.hiddenMessage,
-    required this.metadata,
+    this.description,
+    this.hiddenMessage,
+    this.metadata,
     required this.checkoutUrl,
-    required this.successUrl,
-    required this.cancelUrl,
-    required this.explorerUrl,
+    this.successUrl,
+    this.cancelUrl,
+    this.explorerUrl,
     required this.expiresAt,
     required this.createdAt,
     required this.updatedAt,
@@ -47,18 +32,40 @@ class Invoice extends Equatable {
       _$InvoiceFromJson(json);
 
   final String number;
+
+  /// The invoice asset
   final String asset;
+
+  /// The invoice blockchain, on on which the asset is located
   final String blockchain;
+
+  /// The blockchain network, on which the asset is located.
+  ///
+  /// Examples: "testnet" and "mainnet" in TON.
   final String network;
   final String status;
+
+  /// The invoice amount.
   final String amount;
-  final String description;
+
+  /// The invoice description.
+  final String? description;
   final String? hiddenMessage;
-  final String? metadata;
+
+  /// The invoice attached metadata.
+  final Map<String, dynamic>? metadata;
   final String checkoutUrl;
+
+  /// The URL to which the user is redirected to when the invoice is completed.
   final String? successUrl;
+
+  /// The URL to which the user is redirected to when the invoice is cancelled.
   final String? cancelUrl;
   final String? explorerUrl;
+
+  /// Minutes to invoice expiration.
+  ///
+  /// If not defined, default is 600 minutes (10 hours).
   final DateTime expiresAt;
   final DateTime createdAt;
   final DateTime? updatedAt;
