@@ -39,7 +39,7 @@ abstract class TelePay {
   Future<bool> deleteInvoice(String invoiceNumber);
 
   /// Transfer funds between internal wallets. Off-chain operation.
-  Future<bool> transfer({required CreateTransfer transfer});
+  Future<bool> transfer(CreateTransfer transfer);
 
   /// Obtains minimum amount required to withdraw funds on a given asset
   Future<double> getWithdrawMinimum(
@@ -52,5 +52,5 @@ abstract class TelePay {
   Future<Fee> getWithdrawFee(CreateWithdraw withdraw);
 
   /// Withdraw funds from merchant wallet to external wallet.
-  Future<bool> withdraw({required CreateWithdraw withdraw});
+  Future<bool> withdraw(CreateWithdraw withdraw);
 }
