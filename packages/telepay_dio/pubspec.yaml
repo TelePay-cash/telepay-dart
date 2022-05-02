@@ -1,6 +1,6 @@
 name: telepay_dio
-description: Implementationof the telepay package using Dio http client
-version: 1.0.0+1
+description: TelePay client for Dart language, to easily process cryptocurrency payments using http client Dio.
+version: 0.0.1
 publish_to: none
 
 environment:
