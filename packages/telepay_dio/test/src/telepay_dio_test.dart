@@ -3,8 +3,6 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:telepay/src/exceptions/exceptions.dart';
-import 'package:telepay/src/models/models.dart';
 import 'package:telepay_dio/telepay_dio.dart';
 import 'package:test/test.dart';
 
