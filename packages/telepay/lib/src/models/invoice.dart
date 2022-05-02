@@ -57,7 +57,7 @@ class Invoice extends Equatable {
   final String? hiddenMessage;
 
   /// The invoice attached metadata.
-  final Map<String, dynamic>? metadata;
+  final dynamic metadata;
 
   /// The invoice checkout url.
   final String? checkoutUrl;
