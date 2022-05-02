@@ -1,0 +1,10 @@
+{
+  "asset": "TON",
+  "blockchain": "TON",
+  "network": "mainnet",
+  "expires_at": 600,
+  "amount": 2.5,
+  "description": "Netflix",
+  "metadata": "16as1das5d",
+  "success_url": "https://telepay.cash"
+}
