@@ -180,7 +180,7 @@ class TelePayDio extends TelePay {
   }
 
   @override
-  Future<bool> transfer({required CreateTransfer transfer}) async {
+  Future<bool> transfer(CreateTransfer transfer) async {
     try {
       final response = await _dio.post<Map<String, dynamic>>(
         'transfer',
@@ -199,22 +199,12 @@ class TelePayDio extends TelePay {
   }
 
   @override
-  Future<Fee> getWithdrawFee({
-    required String asset,
-    required String blockchain,
-    required String network,
-  }) async {
+  Future<Fee> getWithdrawFee(CreateWithdraw withdraw) async {
     try {
       final response = await _dio.post<Map<String, dynamic>>(
         'getWithdrawFee',
-        data: <String, dynamic>{
-          'asset': asset,
-          'blockchain': blockchain,
-          'network': network,
-        },
-        options: Options(
-          headers: _headers(),
-        ),
+        data: withdraw.toJson(),
+        options: Options(headers: _headers()),
       );
       if (response.statusCode == 200 && response.data != null) {
         return Fee.fromJson(response.data!);
@@ -252,7 +242,7 @@ class TelePayDio extends TelePay {
   }
 
   @override
-  Future<bool> withdraw({required CreateWithdraw withdraw}) async {
+  Future<bool> withdraw(CreateWithdraw withdraw) async {
     try {
       final response = await _dio.post<Map<String, dynamic>>(
         'withdraw',

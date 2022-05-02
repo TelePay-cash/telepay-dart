@@ -828,5 +828,451 @@ void main() {
       });
     });
 
+    group('transfer', () {
+      final tranferResponse = <String, dynamic>{'success': true};
+      final tranferJson =
+          jsonDecode(fixture('create_transfer.json')) as Map<String, dynamic>;
+      final transferModel = CreateTransfer.fromJson(tranferJson);
+
+      test('should return `true` when the transfer was create', () async {
+        when(
+          () => dio.post<Map<String, dynamic>>(
+            'transfer',
+            options: any<Options>(named: 'options'),
+            data: transferModel.toJson(),
+          ),
+        ).thenAnswer(
+          (_) async => Response(
+            requestOptions: RequestOptions(
+              path: 'transfer',
+              data: tranferResponse,
+            ),
+            statusCode: 200,
+            data: tranferResponse,
+          ),
+        );
+
+        expect(await telepay.transfer(transferModel), isTrue);
+
+        verify(
+          () => dio.post<Map<String, dynamic>>(
+            'transfer',
+            options: any<Options>(named: 'options'),
+            data: transferModel.toJson(),
+          ),
+        ).called(1);
+      });
+
+      test('should throw [UnauthorizedException] when the statusCode is 403',
+          () async {
+        when(
+          () => dio.post<Map<String, dynamic>>(
+            'transfer',
+            options: any<Options>(named: 'options'),
+            data: transferModel.toJson(),
+          ),
+        ).thenThrow(
+          DioError(
+            requestOptions: RequestOptions(path: 'transfer'),
+            response: Response<Map<String, dynamic>>(
+              requestOptions: RequestOptions(path: 'transfer'),
+              statusCode: 403,
+              data: <String, dynamic>{'detail': 'Invalid secret key'},
+            ),
+          ),
+        );
+
+        expect(
+          () => telepay.transfer(transferModel),
+          throwsA(
+            isA<UnauthorizedException>().having(
+              (e) => e.message,
+              'message',
+              'Invalid secret key',
+            ),
+          ),
+        );
+      });
+
+      test(
+          'should throw [TelePayException] when the statusCode '
+          'is diferent the 403', () async {
+        when(
+          () => dio.post<Map<String, dynamic>>(
+            'transfer',
+            options: any<Options>(named: 'options'),
+            data: transferModel.toJson(),
+          ),
+        ).thenThrow(
+          DioError(
+            requestOptions: RequestOptions(path: 'transfer'),
+            response: Response<Map<String, dynamic>>(
+              requestOptions: RequestOptions(path: 'transfer'),
+              statusCode: 500,
+              data: <String, dynamic>{'detail': 'Internal server error'},
+            ),
+          ),
+        );
+
+        expect(
+          () => telepay.transfer(transferModel),
+          throwsA(
+            isA<TelePayException>().having(
+              (e) => e.message,
+              'message',
+              'Failed to get balance: \n'
+                  'STATUS_CODE: 500 \n'
+                  'RESPONSE: {detail: Internal server error}',
+            ),
+          ),
+        );
+      });
+    });
+
+    group('getWithdrawMinimum', () {
+      final tranferResponse = <String, dynamic>{'withdraw_minimum': 0.2};
+
+      final getWithdrawMinimumData = <String, String>{
+        'asset': 'TON',
+        'blockchain': 'TON',
+        'network': 'mainnet'
+      };
+
+      test('should return `double` when the statusCode is equeal to 200',
+          () async {
+        when(
+          () => dio.post<Map<String, dynamic>>(
+            'getWithdrawMinimum',
+            options: any<Options>(named: 'options'),
+            data: getWithdrawMinimumData,
+          ),
+        ).thenAnswer(
+          (_) async => Response(
+            requestOptions: RequestOptions(
+              path: 'getWithdrawMinimum',
+              data: tranferResponse,
+            ),
+            statusCode: 200,
+            data: tranferResponse,
+          ),
+        );
+
+        final result = await telepay.getWithdrawMinimum(
+          getWithdrawMinimumData['asset']!,
+          getWithdrawMinimumData['blockchain']!,
+          getWithdrawMinimumData['network'],
+        );
+
+        expect(result, equals(0.2));
+
+        verify(
+          () => dio.post<Map<String, dynamic>>(
+            'getWithdrawMinimum',
+            options: any<Options>(named: 'options'),
+            data: getWithdrawMinimumData,
+          ),
+        ).called(1);
+      });
+
+      test('should throw [UnauthorizedException] when the statusCode is 403',
+          () async {
+        when(
+          () => dio.post<Map<String, dynamic>>(
+            'getWithdrawMinimum',
+            options: any<Options>(named: 'options'),
+            data: getWithdrawMinimumData,
+          ),
+        ).thenThrow(
+          DioError(
+            requestOptions: RequestOptions(path: 'getWithdrawMinimum'),
+            response: Response<Map<String, dynamic>>(
+              requestOptions: RequestOptions(path: 'getWithdrawMinimum'),
+              statusCode: 403,
+              data: <String, dynamic>{'detail': 'Invalid secret key'},
+            ),
+          ),
+        );
+
+        expect(
+          () => telepay.getWithdrawMinimum(
+            getWithdrawMinimumData['asset']!,
+            getWithdrawMinimumData['blockchain']!,
+            getWithdrawMinimumData['network'],
+          ),
+          throwsA(
+            isA<UnauthorizedException>().having(
+              (e) => e.message,
+              'message',
+              'Invalid secret key',
+            ),
+          ),
+        );
+      });
+
+      test(
+          'should throw [TelePayException] when the statusCode '
+          'is diferent the 403', () async {
+        when(
+          () => dio.post<Map<String, dynamic>>(
+            'getWithdrawMinimum',
+            options: any<Options>(named: 'options'),
+            data: getWithdrawMinimumData,
+          ),
+        ).thenThrow(
+          DioError(
+            requestOptions: RequestOptions(path: 'getWithdrawMinimum'),
+            response: Response<Map<String, dynamic>>(
+              requestOptions: RequestOptions(path: 'getWithdrawMinimum'),
+              statusCode: 500,
+              data: <String, dynamic>{'detail': 'Internal server error'},
+            ),
+          ),
+        );
+
+        expect(
+          () => telepay.getWithdrawMinimum(
+            getWithdrawMinimumData['asset']!,
+            getWithdrawMinimumData['blockchain']!,
+            getWithdrawMinimumData['network'],
+          ),
+          throwsA(
+            isA<TelePayException>().having(
+              (e) => e.message,
+              'message',
+              'Failed to get balance: \n'
+                  'STATUS_CODE: 500 \n'
+                  'RESPONSE: {detail: Internal server error}',
+            ),
+          ),
+        );
+      });
+    });
+
+    group('getWithdrawFee', () {
+      final withdrawFeeResponse = <String, dynamic>{
+        'blockchain_fee': 0.00168,
+        'processing_fee': 0.05,
+        'total': 0.05168
+      };
+
+      final createWitdrawJson = {
+        'asset': 'TON',
+        'blockchain': 'TON',
+        'network': 'mainnet',
+        'amount': 2.5,
+        'to_address': 'EQAwEl_ExMqFJIjfitPRPTdV_B9KTgHG-YognX6iKRWHdpX1',
+        'message': 'Pay for services'
+      };
+
+      final createWithdrawModel = CreateWithdraw.fromJson(createWitdrawJson);
+
+      test('should return [Fee] when the statusCode is equeal to 200',
+          () async {
+        when(
+          () => dio.post<Map<String, dynamic>>(
+            'getWithdrawFee',
+            options: any<Options>(named: 'options'),
+            data: createWithdrawModel.toJson(),
+          ),
+        ).thenAnswer(
+          (_) async => Response(
+            requestOptions: RequestOptions(
+              path: 'getWithdrawFee',
+              data: withdrawFeeResponse,
+            ),
+            statusCode: 200,
+            data: withdrawFeeResponse,
+          ),
+        );
+
+        final result = await telepay.getWithdrawFee(createWithdrawModel);
+
+        expect(result, equals(Fee.fromJson(withdrawFeeResponse)));
+
+        verify(
+          () => dio.post<Map<String, dynamic>>(
+            'getWithdrawFee',
+            options: any<Options>(named: 'options'),
+            data: createWithdrawModel.toJson(),
+          ),
+        ).called(1);
+      });
+
+      test('should throw [UnauthorizedException] when the statusCode is 403',
+          () async {
+        when(
+          () => dio.post<Map<String, dynamic>>(
+            'getWithdrawFee',
+            options: any<Options>(named: 'options'),
+            data: createWithdrawModel.toJson(),
+          ),
+        ).thenThrow(
+          DioError(
+            requestOptions: RequestOptions(path: 'getWithdrawFee'),
+            response: Response<Map<String, dynamic>>(
+              requestOptions: RequestOptions(path: 'getWithdrawFee'),
+              statusCode: 403,
+              data: <String, dynamic>{'detail': 'Invalid secret key'},
+            ),
+          ),
+        );
+
+        expect(
+          () => telepay.getWithdrawFee(createWithdrawModel),
+          throwsA(
+            isA<UnauthorizedException>().having(
+              (e) => e.message,
+              'message',
+              'Invalid secret key',
+            ),
+          ),
+        );
+      });
+
+      test(
+          'should throw [TelePayException] when the statusCode '
+          'is diferent the 403', () async {
+        when(
+          () => dio.post<Map<String, dynamic>>(
+            'getWithdrawFee',
+            options: any<Options>(named: 'options'),
+            data: createWithdrawModel.toJson(),
+          ),
+        ).thenThrow(
+          DioError(
+            requestOptions: RequestOptions(path: 'getWithdrawFee'),
+            response: Response<Map<String, dynamic>>(
+              requestOptions: RequestOptions(path: 'getWithdrawFee'),
+              statusCode: 500,
+              data: <String, dynamic>{'detail': 'Internal server error'},
+            ),
+          ),
+        );
+
+        expect(
+          () => telepay.getWithdrawFee(createWithdrawModel),
+          throwsA(
+            isA<TelePayException>().having(
+              (e) => e.message,
+              'message',
+              'Failed to get balance: \n'
+                  'STATUS_CODE: 500 \n'
+                  'RESPONSE: {detail: Internal server error}',
+            ),
+          ),
+        );
+      });
+    });
+
+    group('withdraw', () {
+      final withdrawResponse = <String, dynamic>{'success': true};
+
+      final createWitdrawJson = {
+        'asset': 'TON',
+        'blockchain': 'TON',
+        'network': 'mainnet',
+        'amount': 2.5,
+        'to_address': 'EQAwEl_ExMqFJIjfitPRPTdV_B9KTgHG-YognX6iKRWHdpX1',
+        'message': 'Pay for services'
+      };
+
+      final createWithdrawModel = CreateWithdraw.fromJson(createWitdrawJson);
+
+      test('should return `true` when the withdraw was successful', () async {
+        when(
+          () => dio.post<Map<String, dynamic>>(
+            'withdraw',
+            options: any<Options>(named: 'options'),
+            data: createWithdrawModel.toJson(),
+          ),
+        ).thenAnswer(
+          (_) async => Response(
+            requestOptions: RequestOptions(
+              path: 'withdraw',
+              data: withdrawResponse,
+            ),
+            statusCode: 200,
+            data: withdrawResponse,
+          ),
+        );
+
+        final result = await telepay.withdraw(createWithdrawModel);
+
+        expect(result, isTrue);
+
+        verify(
+          () => dio.post<Map<String, dynamic>>(
+            'withdraw',
+            options: any<Options>(named: 'options'),
+            data: createWithdrawModel.toJson(),
+          ),
+        ).called(1);
+      });
+
+      test('should throw [UnauthorizedException] when the statusCode is 403',
+          () async {
+        when(
+          () => dio.post<Map<String, dynamic>>(
+            'withdraw',
+            options: any<Options>(named: 'options'),
+            data: createWithdrawModel.toJson(),
+          ),
+        ).thenThrow(
+          DioError(
+            requestOptions: RequestOptions(path: 'withdraw'),
+            response: Response<Map<String, dynamic>>(
+              requestOptions: RequestOptions(path: 'withdraw'),
+              statusCode: 403,
+              data: <String, dynamic>{'detail': 'Invalid secret key'},
+            ),
+          ),
+        );
+
+        expect(
+          () => telepay.withdraw(createWithdrawModel),
+          throwsA(
+            isA<UnauthorizedException>().having(
+              (e) => e.message,
+              'message',
+              'Invalid secret key',
+            ),
+          ),
+        );
+      });
+
+      test(
+          'should throw [TelePayException] when the statusCode '
+          'is diferent the 403', () async {
+        when(
+          () => dio.post<Map<String, dynamic>>(
+            'withdraw',
+            options: any<Options>(named: 'options'),
+            data: createWithdrawModel.toJson(),
+          ),
+        ).thenThrow(
+          DioError(
+            requestOptions: RequestOptions(path: 'withdraw'),
+            response: Response<Map<String, dynamic>>(
+              requestOptions: RequestOptions(path: 'withdraw'),
+              statusCode: 500,
+              data: <String, dynamic>{'detail': 'Internal server error'},
+            ),
+          ),
+        );
+
+        expect(
+          () => telepay.withdraw(createWithdrawModel),
+          throwsA(
+            isA<TelePayException>().having(
+              (e) => e.message,
+              'message',
+              'Failed to get balance: \n'
+                  'STATUS_CODE: 500 \n'
+                  'RESPONSE: {detail: Internal server error}',
+            ),
+          ),
+        );
+      });
+    });
   });
 }
