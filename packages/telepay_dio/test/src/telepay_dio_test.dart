@@ -107,7 +107,7 @@ void main() {
             isA<TelePayException>().having(
               (e) => e.message,
               'message',
-              'Failed to get balance: \n'
+              'Failed to get Me: \n'
                   'STATUS_CODE: 500 \n'
                   'RESPONSE: {detail: Internal server error}',
             ),
@@ -304,7 +304,7 @@ void main() {
             isA<TelePayException>().having(
               (e) => e.message,
               'message',
-              'Failed to get balance: \n'
+              'Failed to get invoices: \n'
                   'STATUS_CODE: 500 \n'
                   'RESPONSE: {detail: Internal server error}',
             ),
@@ -407,7 +407,7 @@ void main() {
             isA<TelePayException>().having(
               (e) => e.message,
               'message',
-              'Failed to get balance: \n'
+              'Failed to get invoice: \n'
                   'STATUS_CODE: 500 \n'
                   'RESPONSE: {detail: Internal server error}',
             ),
@@ -506,7 +506,7 @@ void main() {
             isA<TelePayException>().having(
               (e) => e.message,
               'message',
-              'Failed to get balance: \n'
+              'Failed to get assets: \n'
                   'STATUS_CODE: 500 \n'
                   'RESPONSE: {detail: Internal server error}',
             ),
@@ -616,7 +616,7 @@ void main() {
             isA<TelePayException>().having(
               (e) => e.message,
               'message',
-              'Failed to get balance: \n'
+              'Failed to create invoice: \n'
                   'STATUS_CODE: 500 \n'
                   'RESPONSE: {detail: Internal server error}',
             ),
@@ -721,7 +721,7 @@ void main() {
             isA<TelePayException>().having(
               (e) => e.message,
               'message',
-              'Failed to get balance: \n'
+              'Failed to cancel invoice: \n'
                   'STATUS_CODE: 500 \n'
                   'RESPONSE: {detail: Internal server error}',
             ),
@@ -763,7 +763,8 @@ void main() {
         ).called(1);
       });
 
-      test('should throw [UnauthorizedException] when the statusCode is 403',
+      test(
+          'should throw [UnauthorizedException] when the secret key is invalid',
           () async {
         when(
           () => dio.post<Map<String, dynamic>>(
@@ -794,6 +795,40 @@ void main() {
       });
 
       test(
+          'should throw [NotFoundException] when not found '
+          'the invoice to delete', () async {
+        when(
+          () => dio.post<Map<String, dynamic>>(
+            deleteInvoicePath,
+            options: any<Options>(named: 'options'),
+          ),
+        ).thenThrow(
+          DioError(
+            requestOptions: RequestOptions(path: deleteInvoicePath),
+            response: Response<Map<String, dynamic>>(
+              requestOptions: RequestOptions(path: deleteInvoicePath),
+              statusCode: 404,
+              data: <String, dynamic>{
+                'error': 'not-found',
+                'message': 'Invoice with number $invoiceNumber does not exist',
+              },
+            ),
+          ),
+        );
+
+        expect(
+          () => telepay.deleteInvoice(invoiceNumber),
+          throwsA(
+            isA<NotFoundException>().having(
+              (e) => e.message,
+              'message',
+              'Invoice with number $invoiceNumber does not exist',
+            ),
+          ),
+        );
+      });
+
+      test(
           'should throw [TelePayException] when the statusCode '
           'is diferent the 403', () async {
         when(
@@ -818,7 +853,7 @@ void main() {
             isA<TelePayException>().having(
               (e) => e.message,
               'message',
-              'Failed to get balance: \n'
+              'Failed to delete invoice: \n'
                   'STATUS_CODE: 500 \n'
                   'RESPONSE: {detail: Internal server error}',
             ),
@@ -862,7 +897,8 @@ void main() {
         ).called(1);
       });
 
-      test('should throw [UnauthorizedException] when the statusCode is 403',
+      test(
+          'should throw [UnauthorizedException] when the secret key is invalid',
           () async {
         when(
           () => dio.post<Map<String, dynamic>>(
@@ -894,8 +930,45 @@ void main() {
       });
 
       test(
-          'should throw [TelePayException] when the statusCode '
-          'is diferent the 403', () async {
+          'should throw [NotFoundException] when merchant or user '
+          'does not exist', () async {
+        when(
+          () => dio.post<Map<String, dynamic>>(
+            'transfer',
+            options: any<Options>(named: 'options'),
+            data: transferModel.toJson(),
+          ),
+        ).thenThrow(
+          DioError(
+            requestOptions: RequestOptions(path: 'transfer'),
+            response: Response<Map<String, dynamic>>(
+              requestOptions: RequestOptions(path: 'transfer'),
+              statusCode: 401,
+              data: <String, dynamic>{
+                'error': 'not-found',
+                'message':
+                    'User or merchant with username ${transferModel.username} '
+                        'does not exist'
+              },
+            ),
+          ),
+        );
+
+        expect(
+          () => telepay.transfer(transferModel),
+          throwsA(
+            isA<NotFoundException>().having(
+              (e) => e.message,
+              'message',
+              'User or merchant with username ${transferModel.username} '
+                  'does not exist',
+            ),
+          ),
+        );
+      });
+
+      test('should throw [TelePayException] when occurre generic error',
+          () async {
         when(
           () => dio.post<Map<String, dynamic>>(
             'transfer',
@@ -919,7 +992,7 @@ void main() {
             isA<TelePayException>().having(
               (e) => e.message,
               'message',
-              'Failed to get balance: \n'
+              'Failed to transfer: \n'
                   'STATUS_CODE: 500 \n'
                   'RESPONSE: {detail: Internal server error}',
             ),
@@ -1038,9 +1111,44 @@ void main() {
             isA<TelePayException>().having(
               (e) => e.message,
               'message',
-              'Failed to get balance: \n'
+              'Failed to get withdraw minimum: \n'
                   'STATUS_CODE: 500 \n'
                   'RESPONSE: {detail: Internal server error}',
+            ),
+          ),
+        );
+      });
+
+      test('should throw [NotFoundException] when the asset was not found',
+          () async {
+        when(
+          () => dio.post<Map<String, dynamic>>(
+            'getWithdrawMinimum',
+            options: any<Options>(named: 'options'),
+            data: getWithdrawMinimumData,
+          ),
+        ).thenThrow(
+          DioError(
+            requestOptions: RequestOptions(path: 'getWithdrawMinimum'),
+            response: Response<Map<String, dynamic>>(
+              requestOptions: RequestOptions(path: 'getWithdrawMinimum'),
+              statusCode: 401,
+              data: <String, dynamic>{'error': 'asset-not-found'},
+            ),
+          ),
+        );
+
+        expect(
+          () => telepay.getWithdrawMinimum(
+            getWithdrawMinimumData['asset']!,
+            getWithdrawMinimumData['blockchain']!,
+            getWithdrawMinimumData['network'],
+          ),
+          throwsA(
+            isA<NotFoundException>().having(
+              (e) => e.message,
+              'message',
+              'asset-not-found',
             ),
           ),
         );
@@ -1154,9 +1262,40 @@ void main() {
             isA<TelePayException>().having(
               (e) => e.message,
               'message',
-              'Failed to get balance: \n'
+              'Failed to get withdraw fee: \n'
                   'STATUS_CODE: 500 \n'
                   'RESPONSE: {detail: Internal server error}',
+            ),
+          ),
+        );
+      });
+
+      test('should throw [NotFoundException] when the asset was not found',
+          () async {
+        when(
+          () => dio.post<Map<String, dynamic>>(
+            'getWithdrawFee',
+            options: any<Options>(named: 'options'),
+            data: createWithdrawModel.toJson(),
+          ),
+        ).thenThrow(
+          DioError(
+            requestOptions: RequestOptions(path: 'getWithdrawFee'),
+            response: Response<Map<String, dynamic>>(
+              requestOptions: RequestOptions(path: 'getWithdrawFee'),
+              statusCode: 401,
+              data: <String, dynamic>{'error': 'asset-not-found'},
+            ),
+          ),
+        );
+
+        expect(
+          () => telepay.getWithdrawFee(createWithdrawModel),
+          throwsA(
+            isA<NotFoundException>().having(
+              (e) => e.message,
+              'message',
+              'asset-not-found',
             ),
           ),
         );
@@ -1265,9 +1404,77 @@ void main() {
             isA<TelePayException>().having(
               (e) => e.message,
               'message',
-              'Failed to get balance: \n'
+              'Failed to withdraw: \n'
                   'STATUS_CODE: 500 \n'
                   'RESPONSE: {detail: Internal server error}',
+            ),
+          ),
+        );
+      });
+      test(
+          'should throw [InsufficienttFondsException] when not '
+          'have suficient founds', () async {
+        when(
+          () => dio.post<Map<String, dynamic>>(
+            'withdraw',
+            options: any<Options>(named: 'options'),
+            data: createWithdrawModel.toJson(),
+          ),
+        ).thenThrow(
+          DioError(
+            requestOptions: RequestOptions(path: 'withdraw'),
+            response: Response<Map<String, dynamic>>(
+              requestOptions: RequestOptions(path: 'withdraw'),
+              statusCode: 401,
+              data: <String, dynamic>{
+                'error': 'insufficient-funds',
+                'message': 'Insufficient funds to withdraw'
+              },
+            ),
+          ),
+        );
+
+        expect(
+          () => telepay.withdraw(createWithdrawModel),
+          throwsA(
+            isA<InsufficienttFondsException>().having(
+              (e) => e.message,
+              'message',
+              'Insufficient funds to withdraw',
+            ),
+          ),
+        );
+      });
+
+      test('should throw [NotFoundException] when not found the asset',
+          () async {
+        when(
+          () => dio.post<Map<String, dynamic>>(
+            'withdraw',
+            options: any<Options>(named: 'options'),
+            data: createWithdrawModel.toJson(),
+          ),
+        ).thenThrow(
+          DioError(
+            requestOptions: RequestOptions(path: 'withdraw'),
+            response: Response<Map<String, dynamic>>(
+              requestOptions: RequestOptions(path: 'withdraw'),
+              statusCode: 401,
+              data: <String, dynamic>{
+                'error': 'asset-not-found',
+                'message': 'Asset not found'
+              },
+            ),
+          ),
+        );
+
+        expect(
+          () => telepay.withdraw(createWithdrawModel),
+          throwsA(
+            isA<NotFoundException>().having(
+              (e) => e.message,
+              'message',
+              'Asset not found',
             ),
           ),
         );

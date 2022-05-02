@@ -38,7 +38,7 @@ class TelePayDio extends TelePay {
         return Merchant.fromJson(merchantJson);
       }
     } on DioError catch (e) {
-      _handlerError(e);
+      _handlerError(e, 'get Me');
     }
     throw const TelePayException('Failed to get merchant info');
   }
@@ -57,7 +57,7 @@ class TelePayDio extends TelePay {
         return wallets.map(Wallet.fromJson).toList();
       }
     } on DioError catch (e) {
-      _handlerError(e);
+      _handlerError(e, 'get balance');
     }
     throw const TelePayException('Failed to get balance info');
   }
@@ -76,7 +76,7 @@ class TelePayDio extends TelePay {
         return invoices.map(Invoice.fromJson).toList();
       }
     } on DioError catch (e) {
-      _handlerError(e);
+      _handlerError(e, 'get invoices');
     }
     throw const TelePayException('Failed to get invoices info');
   }
@@ -92,7 +92,7 @@ class TelePayDio extends TelePay {
         return Invoice.fromJson(response.data!);
       }
     } on DioError catch (e) {
-      _handlerError(e);
+      _handlerError(e, 'get invoice');
     }
     throw const TelePayException('Failed to get invoices info');
   }
@@ -111,20 +111,32 @@ class TelePayDio extends TelePay {
         return assets.map(Asset.fromJson).toList();
       }
     } on DioError catch (e) {
-      _handlerError(e);
+      _handlerError(e, 'get assets');
     }
     throw const TelePayException('Failed to get invoices info');
   }
 
-  void _handlerError(DioError e) {
+  void _handlerError(DioError e, [String? method]) {
     if (e.response?.statusCode == 403) {
       final data = e.response?.data as Map<String, dynamic>;
       throw UnauthorizedException(
         data['detail'] as String? ?? 'Invalid secret key',
       );
+    } else if (e.response?.statusCode == 404 || e.response?.statusCode == 401) {
+      final data = e.response?.data as Map<String, dynamic>;
+      if (data.containsKey('error')) {
+        if (data['error'] as String == 'insufficient-funds') {
+          throw InsufficienttFondsException(
+            data['message'] as String? ?? data['error'] as String,
+          );
+        }
+        throw NotFoundException(
+          data['message'] as String? ?? data['error'] as String,
+        );
+      }
     }
     throw TelePayException(
-      'Failed to get balance: \n'
+      'Failed to $method: \n'
       'STATUS_CODE: ${e.response?.statusCode} \n'
       'RESPONSE: ${e.response?.data}',
     );
@@ -141,7 +153,7 @@ class TelePayDio extends TelePay {
         return Invoice.fromJson(response.data!);
       }
     } on DioError catch (e) {
-      _handlerError(e);
+      _handlerError(e, 'cancel invoice');
     }
     throw const TelePayException('Failed to cancel invoice.');
   }
@@ -158,7 +170,7 @@ class TelePayDio extends TelePay {
         return Invoice.fromJson(response.data!);
       }
     } on DioError catch (e) {
-      _handlerError(e);
+      _handlerError(e, 'create invoice');
     }
     throw const TelePayException('Failed to create invoice.');
   }
@@ -174,7 +186,7 @@ class TelePayDio extends TelePay {
         return response.data!['status'] as String == 'deleted';
       }
     } on DioError catch (e) {
-      _handlerError(e);
+      _handlerError(e, 'delete invoice');
     }
     throw const TelePayException('Failed to delete invoice.');
   }
@@ -193,7 +205,7 @@ class TelePayDio extends TelePay {
         return response.data!['success'] as bool == true;
       }
     } on DioError catch (e) {
-      _handlerError(e);
+      _handlerError(e, 'transfer');
     }
     throw const TelePayException('Failed to tranfer.');
   }
@@ -210,7 +222,7 @@ class TelePayDio extends TelePay {
         return Fee.fromJson(response.data!);
       }
     } on DioError catch (e) {
-      _handlerError(e);
+      _handlerError(e, 'get withdraw fee');
     }
     throw const TelePayException('Failed to get withdraw fee.');
   }
@@ -236,7 +248,7 @@ class TelePayDio extends TelePay {
         return response.data!['withdraw_minimum'] as double;
       }
     } on DioError catch (e) {
-      _handlerError(e);
+      _handlerError(e, 'get withdraw minimum');
     }
     throw const TelePayException('Failed to get withdraw minimum.');
   }
@@ -253,7 +265,7 @@ class TelePayDio extends TelePay {
         return response.data!['success'] == true;
       }
     } on DioError catch (e) {
-      _handlerError(e);
+      _handlerError(e, 'withdraw');
     }
     throw const TelePayException('Failed to withdraw.');
   }
