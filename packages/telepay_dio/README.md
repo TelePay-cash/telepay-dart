@@ -1,6 +1,6 @@
 # telepay_dio
 
-[![codecov][coverage_badge]][codecov_link]  [![style: very good analysis][very_good_analysis_badge]][very_good_analysis_link]   [![pub package][pub_badge]][pub_link]   [![License: MIT][license_badge]][license_link]
+[![style: very good analysis][very_good_analysis_badge]][very_good_analysis_link]   [![pub package][pub_badge]][pub_link]   [![License: MIT][license_badge]][license_link]
 
 [TelePay][telepay_link] client for Dart language, to easily process cryptocurrency payments using http client [Dio](dio_package_link).
 
@@ -26,7 +26,7 @@ The first thing is to create an instance of `TelePayDio` for later use, which re
 ```
 
 🚨  **WARNING** 🚨
-Your `projectKey` is confidential and meant to be used by you. Anyone who has your project key can access your database. Please, do not share it or commit it in your code.
+Your `secretApiKey` is confidential and meant to be used by you. Anyone who has your project key can access your merchant. Please, do not share it or commit it in your code.
 
 #### Methods
 
@@ -145,8 +145,8 @@ final withdrawFee = await telepay.getWithdrawFee(
 [codecov_link]: https://codecov.io/gh/telepay/telepay-dart
 [coverage_badge]: https://codecov.io/gh/telepay/telepay-dart/branch/main/graph/badge.svg
 [license_badge]: https://img.shields.io/badge/license-MIT-blue.svg
-[pub_badge]: https://img.shields.io/pub/v/telepay.svg
-[pub_link]: https://pub.dartlang.org/packages/telepay
+[pub_badge]: https://img.shields.io/pub/v/telepay_dio.svg
+[pub_link]: https://pub.dartlang.org/packages/telepay_dio
 [license_link]: https://opensource.org/licenses/MIT
 [very_good_analysis_badge]: https://img.shields.io/badge/style-very_good_analysis-B22C89.svg
 [very_good_analysis_link]: https://pub.dev/packages/very_good_analysis
