@@ -526,8 +526,7 @@ void main() {
           jsonDecode(fixture('create_invoice.json')) as Map<String, dynamic>;
       final createInvoiceModel = CreateInvoice.fromJson(createInvoiceJson);
 
-      test('should return a [Invoice] when the statusCode is equeal to 200',
-          () async {
+      test('should return a [Invoice] when was created successfully', () async {
         when(
           () => dio.post<Map<String, dynamic>>(
             'createInvoice',
@@ -540,7 +539,7 @@ void main() {
               path: 'createInvoice',
               data: invoiceResponse,
             ),
-            statusCode: 200,
+            statusCode: 201,
             data: invoiceResponse,
           ),
         );
