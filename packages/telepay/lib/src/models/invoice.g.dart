@@ -15,7 +15,7 @@ Invoice _$InvoiceFromJson(Map<String, dynamic> json) => Invoice(
       amount: json['amount'] as String,
       description: json['description'] as String?,
       hiddenMessage: json['hidden_message'] as String?,
-      metadata: json['metadata'] as Map<String, dynamic>?,
+      metadata: json['metadata'],
       checkoutUrl: json['checkout_url'] as String?,
       successUrl: json['success_url'] as String?,
       cancelUrl: json['cancel_url'] as String?,
