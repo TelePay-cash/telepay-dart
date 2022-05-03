@@ -6,7 +6,7 @@
 
 ## Getting Started
 
-Check the full example [here](https://github.com/telepay-cash/telepay-dart/blob/main/packages/telepay_dio/example/main.dart).
+Check the full example [here](https://github.com/telepay-cash/telepay-dart/blob/main/packages/telepay_dio/example/lib/main.dart).
 
 ### Install
 
@@ -17,7 +17,7 @@ dependencies:
     telepay_dio: <version>
 ```
 
-### Usege
+### Make Your First Request
 
 The first thing is to create an instance of `TelePayDio` for later use, which receives two parameters, your API private key and an instance of Dio.
 
