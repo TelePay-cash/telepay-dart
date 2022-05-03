@@ -2,7 +2,7 @@
 
 ![TelePay Dart](https://github.com/TelePay-cash/telepay-dart/blob/main/docs/cover.jpg?raw=true)
 
-TelePay client library for the dart language, so you can easely process cryptocurrency payments using the REST API.
+TelePay client library for the Dart language, so you can easely process cryptocurrency payments using the REST API.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![Last commit](https://img.shields.io/github/last-commit/telepay-cash/telepay-dart.svg?style=flat-square)](https://github.com/telepay-cash/telepay-dart/commits)
