@@ -77,6 +77,18 @@ Future<void> main(List<String> args) async {
       ),
     );
     print(withdrawFee);
+
+    // Withdraw funds to a specific address.
+    final withdraw = await telepay.withdraw(
+      const CreateWithdraw(
+        asset: 'TON',
+        blockchain: 'TON',
+        network: 'testnet',
+        amount: 5.2,
+        toAddress: 'EQAwEl_ExMqFJIjfitPRPTdV_B9KTgHG-YognX6iKRWHdpX1',
+      ),
+    );
+    print(withdraw);
   } on TelePayException catch (e) {
     print(e.toString());
   }

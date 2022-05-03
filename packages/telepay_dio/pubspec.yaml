@@ -1,7 +1,7 @@
 name: telepay_dio
 description: TelePay client for Dart language, to easily process cryptocurrency payments using http client Dio.
 version: 0.0.1+1
-repository: https://github.com/telepay-cash/telepay-dart/packages/telepay_dio
+repository: https://github.com/telepay-cash/telepay-dart/tree/main/packages/telepay_dio
 homepage: https://github.com/telepay-cash/telepay-dart/
 
 environment:
