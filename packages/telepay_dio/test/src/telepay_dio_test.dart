@@ -14,7 +14,7 @@ void main() {
   late MockDio dio;
   late TelePayDio telepay;
 
-  setUpAll(() {
+  setUp(() {
     dio = MockDio();
     telepay = TelePayDio(secretApiKey: 'secretApiKey', dio: dio);
 
