@@ -142,6 +142,32 @@ final withdrawFee = await telepay.getWithdrawFee(
 );
 ```
 
+## Running Tests 🧪
+
+To run all unit tests use the following command:
+
+```sh
+dart test --coverage="/coveraga" --test-randomize-ordering-seed random
+
+```
+
+To view the generated coverage report you can use [coverde](https://pub.dev/packages/coverde).
+
+```sh
+# Filter the tested files.
+coverde filter -f \.g\.dart
+
+# Generate Coverage Report and open in browser.
+coverde report -l
+```
+
+---
+
+## Bugs or Requests
+
+If you want to [report a problem][github_issue_link] or would like to add a new feature, feel free to open an [issue on GitHub][github_issue_link]. Pull requests are also welcome.
+
+[github_issue_link]: https://github.com/TelePay-cash/telepay-dart/issues
 [codecov_link]: https://codecov.io/gh/telepay/telepay-dart
 [coverage_badge]: https://codecov.io/gh/telepay/telepay-dart/branch/main/graph/badge.svg
 [license_badge]: https://img.shields.io/badge/license-MIT-blue.svg
