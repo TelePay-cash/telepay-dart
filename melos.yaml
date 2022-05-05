@@ -20,6 +20,6 @@ scripts:
     run: melos exec -c 1 -- "flutter analyze . --fatal-infos"
     description: Run analyzer.
   test:
-    run: melos exec --concurrency=1 -- "flutter test --reporter expanded"
+    run: melos exec --ignore="*example*" --concurrency=1 -- "flutter test --reporter expanded"
     description: Run tests.
     
