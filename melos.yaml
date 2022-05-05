@@ -14,3 +14,12 @@ command:
     branch: main
     # Additionally build a changelog at the root of the workspace.
     workspaceChangelog: true
+
+scripts:
+  analyze:
+    run: melos exec -c 1 -- "flutter analyze . --fatal-infos"
+    description: Run analyzer.
+  test:
+    run: melos exec --concurrency=1 -- "flutter test --reporter expanded"
+    description: Run tests.
+    
