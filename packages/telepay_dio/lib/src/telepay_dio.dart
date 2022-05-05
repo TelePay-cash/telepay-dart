@@ -2,9 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:telepay/telepay.dart';
 
 /// {@template telepay_dio}
-/// Implementationof the telepay package using Dio http client
+/// Implementation of the telepay package using Dio http client
 /// {@endtemplate}
-class TelePayDio extends TelePay {
+class TelePayDio implements TelePay {
   /// {@macro telepay_dio}
   TelePayDio({
     required String secretApiKey,
@@ -20,7 +20,7 @@ class TelePayDio extends TelePay {
   final Dio _dio;
 
   /// Set headers for the Dio instance
-  Map<String, String> _headers() => <String, String>{
+  Map<String, String> get _headers => <String, String>{
         'AUTHORIZATION': _secretApiKey,
         'Accept': 'application/json'
       };
@@ -30,7 +30,7 @@ class TelePayDio extends TelePay {
     try {
       final response = await _dio.get<Map<String, dynamic>>(
         'getMe',
-        options: Options(headers: _headers()),
+        options: Options(headers: _headers),
       );
       if (response.statusCode == 200 && response.data != null) {
         final merchantJson =
@@ -48,7 +48,7 @@ class TelePayDio extends TelePay {
     try {
       final response = await _dio.get<Map<String, dynamic>>(
         'getBalance',
-        options: Options(headers: _headers()),
+        options: Options(headers: _headers),
       );
       if (response.statusCode == 200 && response.data != null) {
         final data = response.data!['wallets']! as List<dynamic>;
@@ -67,7 +67,7 @@ class TelePayDio extends TelePay {
     try {
       final response = await _dio.get<Map<String, dynamic>>(
         'getInvoices',
-        options: Options(headers: _headers()),
+        options: Options(headers: _headers),
       );
       if (response.statusCode == 200 && response.data != null) {
         final data = response.data!['invoices']! as List<dynamic>;
@@ -86,7 +86,7 @@ class TelePayDio extends TelePay {
     try {
       final response = await _dio.get<Map<String, dynamic>>(
         'getInvoice/$invoiceNumber',
-        options: Options(headers: _headers()),
+        options: Options(headers: _headers),
       );
       if (response.statusCode == 200 && response.data != null) {
         return Invoice.fromJson(response.data!);
@@ -94,7 +94,7 @@ class TelePayDio extends TelePay {
     } on DioError catch (e) {
       _handlerError(e, 'get invoice');
     }
-    throw const TelePayException('Failed to get invoices info');
+    throw const TelePayException('Failed to get invoice info');
   }
 
   @override
@@ -102,7 +102,7 @@ class TelePayDio extends TelePay {
     try {
       final response = await _dio.get<Map<String, dynamic>>(
         'getAssets',
-        options: Options(headers: _headers()),
+        options: Options(headers: _headers),
       );
       if (response.statusCode == 200 && response.data != null) {
         final data = response.data!['assets']! as List<dynamic>;
@@ -113,7 +113,7 @@ class TelePayDio extends TelePay {
     } on DioError catch (e) {
       _handlerError(e, 'get assets');
     }
-    throw const TelePayException('Failed to get invoices info');
+    throw const TelePayException('Failed to get assets info');
   }
 
   void _handlerError(DioError e, [String? method]) {
@@ -147,7 +147,7 @@ class TelePayDio extends TelePay {
     try {
       final response = await _dio.post<Map<String, dynamic>>(
         'cancelInvoice/$invoiceNumber',
-        options: Options(headers: _headers()),
+        options: Options(headers: _headers),
       );
       if (response.statusCode == 200 && response.data != null) {
         return Invoice.fromJson(response.data!);
@@ -164,7 +164,7 @@ class TelePayDio extends TelePay {
       final response = await _dio.post<Map<String, dynamic>>(
         'createInvoice',
         data: invoice.toJson(),
-        options: Options(headers: _headers()),
+        options: Options(headers: _headers),
       );
       if (response.statusCode == 201 && response.data != null) {
         return Invoice.fromJson(response.data!);
@@ -180,7 +180,7 @@ class TelePayDio extends TelePay {
     try {
       final response = await _dio.post<Map<String, dynamic>>(
         'deleteInvoice/$invoiceNumber',
-        options: Options(headers: _headers()),
+        options: Options(headers: _headers),
       );
       if (response.statusCode == 200 && response.data != null) {
         return response.data!['status'] as String == 'deleted';
@@ -198,7 +198,7 @@ class TelePayDio extends TelePay {
         'transfer',
         data: transfer.toJson(),
         options: Options(
-          headers: _headers(),
+          headers: _headers,
         ),
       );
       if (response.statusCode == 200 && response.data != null) {
@@ -216,7 +216,7 @@ class TelePayDio extends TelePay {
       final response = await _dio.post<Map<String, dynamic>>(
         'getWithdrawFee',
         data: withdraw.toJson(),
-        options: Options(headers: _headers()),
+        options: Options(headers: _headers),
       );
       if (response.statusCode == 200 && response.data != null) {
         return Fee.fromJson(response.data!);
@@ -241,7 +241,7 @@ class TelePayDio extends TelePay {
           'blockchain': blockchain,
           'network': network,
         },
-        options: Options(headers: _headers()),
+        options: Options(headers: _headers),
       );
 
       if (response.statusCode == 200 && response.data != null) {
@@ -259,7 +259,7 @@ class TelePayDio extends TelePay {
       final response = await _dio.post<Map<String, dynamic>>(
         'withdraw',
         data: withdraw.toJson(),
-        options: Options(headers: _headers()),
+        options: Options(headers: _headers),
       );
       if (response.statusCode == 200 && response.data != null) {
         return response.data!['success'] == true;

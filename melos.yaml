@@ -3,7 +3,7 @@ name: telepay-dart
 repository: https://github.com/telepay/telepay-dart
 
 packages:
-  - examples/**
+  - apps/**
   - packages/**
 
 command:
