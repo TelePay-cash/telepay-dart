@@ -11,6 +11,7 @@
         "hidden_message": null,
         "metadata": null,
         "checkout_url": "https://telepay.cash/checkout/GB9Q1QEKZB",
+        "onchain_url": "ton://transfer/EQA5Pxp_EC9pTlxrvO59D1iqBqodajojullgf07ENKa22oSN?amount=110000000&text=94L6YGHT4Q",
         "success_url": null,
         "cancel_url": null,
         "explorer_url": null,
