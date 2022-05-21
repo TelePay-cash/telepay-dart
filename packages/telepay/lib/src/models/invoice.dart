@@ -20,6 +20,7 @@ class Invoice extends Equatable {
     this.hiddenMessage,
     this.metadata,
     this.checkoutUrl,
+    this.onchainUrl,
     this.successUrl,
     this.cancelUrl,
     this.explorerUrl,
@@ -61,6 +62,9 @@ class Invoice extends Equatable {
 
   /// The invoice checkout url.
   final String? checkoutUrl;
+
+  /// Is a deep link to optionally present it to your users.
+  final String? onchainUrl;
 
   /// The URL to which the user is redirected to when the invoice is completed.
   final String? successUrl;
