@@ -1,5 +1,7 @@
 # telepay
 
+![TelePay Dart](https://github.com/TelePay-cash/telepay-dart/blob/main/docs/cover.jpg?raw=true)
+
 [![style: very good analysis][very_good_analysis_badge]][very_good_analysis_link]   [![pub package][pub_badge]][pub_link]   [![License: MIT][license_badge]][license_link]
 
 Abstraction to then implement different packages in Dart to interact with the [TelePay API][telepay_api_link].
