@@ -9,8 +9,7 @@ environment:
 
 dependencies:
   dio: ^4.0.6
-  telepay: ^0.0.2
-
+  telepay: ^0.0.3
 dev_dependencies:
   coverage: ^1.1.0
   mocktail: ^0.3.0
