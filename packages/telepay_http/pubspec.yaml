@@ -4,17 +4,13 @@ version: 0.0.1
 repository: https://github.com/telepay-cash/telepay-dart/tree/main/packages/telepay_http
 homepage: https://github.com/telepay-cash/telepay-dart/
 
-publish_to: none
-
 environment:
   sdk: ">=2.16.0 <3.0.0"
 
 dependencies:
   equatable: ^2.0.3
   http: ^0.13.4
-  telepay:
-    path: 
-      ../telepay
+  telepay: ^0.0.2
 
 dev_dependencies:
   coverage: ^1.1.0
