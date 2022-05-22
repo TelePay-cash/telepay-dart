@@ -15,6 +15,25 @@ Packages with breaking changes:
 
 Packages with other changes:
 
+ - [`telepay_dio` - `v0.0.3`](#telepay_dio---v003)
+
+---
+
+#### `telepay_dio` - `v0.0.3`
+
+
+## 2022-05-22
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
  - [`telepay` - `v0.0.3`](#telepay---v003)
  - [`telepay_dio` - `v0.0.2+1`](#telepay_dio---v0021)
  - [`telepay_http` - `v0.0.1+1`](#telepay_http---v0011)
