@@ -1,5 +1,9 @@
 import 'dart:developer';
 
+import 'package:test/scaffolding.dart';
+
 void main() {
-  log('Stub test');
+  test('Stub test', () {
+    log('Stub test');
+  });
 }
