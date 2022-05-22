@@ -9,7 +9,7 @@ Abstraction to then implement different packages in Dart to interact with the [T
 ## This package is implemented in
 
 * [telepay_dio](https://pub.dev/packages/telepay_dio) used by the HTTP client of the [dio](https://pub.dev/packages/dio) package.
-* [telepay_http](https://pub.dev/packages/telepay_http) used by the HTTP client of the [http](https://pub.dev/packages/http) package. (Coming soon)
+* [telepay_http](https://pub.dev/packages/telepay_http) used by the HTTP client of the [http](https://pub.dev/packages/http) package.
 
 [license_badge]: https://img.shields.io/badge/license-MIT-blue.svg
 [pub_badge]: https://img.shields.io/pub/v/telepay.svg
