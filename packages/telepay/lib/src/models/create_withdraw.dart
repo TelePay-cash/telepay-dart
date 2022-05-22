@@ -25,7 +25,7 @@ class CreateWithdraw extends Equatable {
   /// The blockchain network, on which the asset is located.
   ///
   /// Examples: "testnet" and "mainnet" in TON.
-  final String network;
+  final String? network;
 
   /// The amount to estimate the feed from.
   final double amount;

@@ -10,7 +10,7 @@ CreateInvoice _$CreateInvoiceFromJson(Map<String, dynamic> json) =>
     CreateInvoice(
       asset: json['asset'] as String,
       blockchain: json['blockchain'] as String,
-      network: json['network'] as String,
+      network: json['network'] as String?,
       amount: (json['amount'] as num).toDouble(),
       expiresAt: json['expires_at'] as int?,
       description: json['description'] as String?,
@@ -23,8 +23,6 @@ Map<String, dynamic> _$CreateInvoiceToJson(CreateInvoice instance) {
   final val = <String, dynamic>{
     'asset': instance.asset,
     'blockchain': instance.blockchain,
-    'network': instance.network,
-    'amount': instance.amount,
   };
 
   void writeNotNull(String key, dynamic value) {
@@ -33,6 +31,8 @@ Map<String, dynamic> _$CreateInvoiceToJson(CreateInvoice instance) {
     }
   }
 
+  writeNotNull('network', instance.network);
+  val['amount'] = instance.amount;
   writeNotNull('description', instance.description);
   writeNotNull('metadata', instance.metadata);
   writeNotNull('expires_at', instance.expiresAt);
