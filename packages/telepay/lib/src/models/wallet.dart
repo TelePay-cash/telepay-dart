@@ -28,10 +28,15 @@ class Wallet extends Equatable {
   final double balance;
 
   /// The blockchain network on which the asset is located.
-  final String network;
+  final String? network;
 
   Map<String, dynamic> toJson() => _$WalletToJson(this);
 
   @override
-  List<Object> get props => [asset, blockchain, balance, network];
+  List<Object?> get props => [
+        asset,
+        blockchain,
+        balance,
+        network,
+      ];
 }
