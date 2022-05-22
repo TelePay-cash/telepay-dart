@@ -28,7 +28,7 @@ class CreateTransfer extends Equatable {
   final String blockchain;
 
   /// The blockchain network on which the asset is located
-  final String network;
+  final String? network;
 
   /// The amount to transfer
   final double amount;
