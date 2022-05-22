@@ -18,7 +18,7 @@ TelePay client library for the Dart language, so you can easely process cryptocu
 | ------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------- |
 |[telepay][telepay_github_link]|[![pub package][pub_badge_telepay]][pub_link_telepay]|
 |[telepay_dio][telepay_github_link]|[![pub package][pub_badge_telepay_dio]][pub_link_telepay_dio]|
-|telepay_http|(Coming soon)|
+|[telepay_http][telepay_github_link]|[![pub package][pub_badge_telepay_http]][pub_link_telepay_http]|
 |telepay_hooks|(Coming soon)|
 
 ## Index
@@ -237,5 +237,7 @@ This project follows the [all-contributors](https://github.com/all-contributors/
 [pub_link_telepay]: https://pub.dartlang.org/packages/telepay
 [pub_badge_telepay_dio]: https://img.shields.io/pub/v/telepay_dio.svg
 [pub_link_telepay_dio]: https://pub.dartlang.org/packages/telepay_dio
+[pub_badge_telepay_http]: https://img.shields.io/pub/v/telepay_http.svg
+[pub_link_telepay_http]: https://pub.dartlang.org/packages/telepay_http
 [telepay_dart_github_link]: https://github.com/telepay-cash/telepay-dart/
 [telepay_github_link]: https://github.com/telepay-cash/telepay-dart/tree/main/packages/telepay
