@@ -1,6 +1,6 @@
 name: telepay
 description: TelePay abstract client for Dart language, to easily process cryptocurrency payments.
-version: 0.0.2
+version: 0.0.2+1
 repository: https://github.com/TelePay-cash/telepay-dart/tree/main/packages/telepay
 homepage: https://github.com/TelePay-cash/telepay-dart/
 
@@ -12,9 +12,9 @@ dependencies:
   json_annotation: ^4.5.0
 
 dev_dependencies:
-  build_runner: ^2.1.10
+  build_runner: ^2.1.11
   coverage: ^1.1.0
-  json_serializable: ^6.1.6
+  json_serializable: ^6.2.0
   mocktail: ^0.3.0
   test: ^1.19.2
-  very_good_analysis: ^2.4.0
+  very_good_analysis: ^3.0.0

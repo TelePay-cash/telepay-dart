@@ -22,11 +22,15 @@ class Owner extends Equatable {
   final String firstName;
 
   /// The owner last name.
-  final String lastName;
+  final String? lastName;
 
   ///  The owner username.
   final String username;
 
   @override
-  List<Object> get props => [firstName, lastName, username];
+  List<Object?> get props => [
+        firstName,
+        lastName,
+        username,
+      ];
 }

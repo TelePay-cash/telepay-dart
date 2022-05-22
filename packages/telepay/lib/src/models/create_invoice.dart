@@ -30,7 +30,7 @@ class CreateInvoice extends Equatable {
   /// The blockchain network, on which the asset is located.
   ///
   /// Examples: "testnet" and "mainnet" in TON.
-  final String network;
+  final String? network;
 
   /// The invoice amount.
   final double amount;
