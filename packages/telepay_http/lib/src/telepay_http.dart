@@ -36,6 +36,8 @@ class TelePayHttp implements TelePay {
       headers: _headers,
     );
 
+    log(response.toString());
+
     if (response.statusCode == 200 && response.data != null) {
       return Invoice.fromJson(response.data!);
     }
@@ -45,10 +47,13 @@ class TelePayHttp implements TelePay {
 
   @override
   Future<Invoice> createInvoice(CreateInvoice invoice) async {
+    final body = invoice.toJson();
+    body['amount'] = invoice.amount.toString();
+
     final response = await _http.telepayPost(
       'createInvoice',
       headers: _headers,
-      body: invoice.toJson(),
+      body: body,
     );
 
     if (response.statusCode == 201 && response.data != null) {
@@ -143,10 +148,13 @@ class TelePayHttp implements TelePay {
 
   @override
   Future<Fee> getWithdrawFee(CreateWithdraw withdraw) async {
+    final body = withdraw.toJson();
+    body['amount'] = withdraw.amount.toString();
+
     final response = await _http.telepayPost(
       'getWithdrawFee',
       headers: _headers,
-      body: withdraw.toJson(),
+      body: body,
     );
 
     if (response.statusCode == 200 && response.data != null) {
@@ -168,7 +176,7 @@ class TelePayHttp implements TelePay {
       body: <String, dynamic>{
         'asset': asset,
         'blockchain': blockchain,
-        'network': network,
+        if (network != null) 'network': network,
       },
     );
 
@@ -181,10 +189,13 @@ class TelePayHttp implements TelePay {
 
   @override
   Future<bool> transfer(CreateTransfer transfer) async {
+    final body = transfer.toJson();
+    body['amount'] = transfer.amount.toString();
+
     final response = await _http.telepayPost(
       'transfer',
       headers: _headers,
-      body: transfer.toJson(),
+      body: body,
     );
 
     if (response.statusCode == 200 && response.data != null) {
@@ -196,10 +207,13 @@ class TelePayHttp implements TelePay {
 
   @override
   Future<bool> withdraw(CreateWithdraw withdraw) async {
+    final body = withdraw.toJson();
+    body['amount'] = withdraw.amount.toString();
+
     final response = await _http.telepayPost(
       'withdraw',
       headers: _headers,
-      body: withdraw.toJson(),
+      body: body,
     );
 
     if (response.statusCode == 200 && response.data != null) {

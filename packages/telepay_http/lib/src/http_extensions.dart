@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:equatable/equatable.dart';
 import 'package:http/http.dart';
@@ -18,21 +17,13 @@ extension BaseClientX on Client {
     try {
       final uri = _getUri(url);
 
-      // TODO(luisciber): check and remove this log
-      log(uri.toString());
-
       final response = await get(
         uri,
         headers: headers,
       );
 
-      // TODO(luisciber): check and remove this log
-      final res = TelepayResponse.from(response);
-      log(res.toString());
-      return res;
+      return TelepayResponse.from(response);
     } catch (e) {
-      // TODO(luisciber): check and remove this log
-      log(e.toString());
       rethrow;
     }
   }
@@ -54,8 +45,6 @@ extension BaseClientX on Client {
 
       return TelepayResponse.from(response);
     } catch (e) {
-      // TODO(luisciber): check and remove this log
-      log(e.toString());
       rethrow;
     }
   }
@@ -77,8 +66,7 @@ class TelepayResponse extends Response with EquatableMixin {
     try {
       _data = json.decode(utf8.decode(bodyBytes)) as Map<String, dynamic>;
     } catch (e) {
-      // TODO(luisciber): check and remove this log
-      log(e.toString());
+      rethrow;
     }
   }
 

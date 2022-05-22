@@ -1,8 +1,10 @@
 name: telepay_http
 description: TelePay client for Dart language, to easily process cryptocurrency payments using classic http client.
-version: 0.0.1+1
+version: 0.0.1
 repository: https://github.com/telepay-cash/telepay-dart/tree/main/packages/telepay_http
 homepage: https://github.com/telepay-cash/telepay-dart/
+
+publish_to: none
 
 environment:
   sdk: ">=2.16.0 <3.0.0"
@@ -10,10 +12,12 @@ environment:
 dependencies:
   equatable: ^2.0.3
   http: ^0.13.4
-  telepay: ^0.0.1
+  telepay:
+    path: 
+      ../telepay
 
 dev_dependencies:
   coverage: ^1.1.0
   mocktail: ^0.3.0
   test: ^1.19.2
-  very_good_analysis: ^2.4.0
+  very_good_analysis: ^3.0.0

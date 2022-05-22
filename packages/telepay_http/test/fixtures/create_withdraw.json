@@ -1,8 +1,0 @@
-{
-  "asset": "TON",
-  "blockchain": "TON",
-  "network": "mainnet",
-  "amount": 2.5,
-  "to_address": "EQAwEl_ExMqFJIjfitPRPTdV_B9KTgHG-YognX6iKRWHdpX1",
-  "message": "Pay for services"
-}
