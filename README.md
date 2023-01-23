@@ -1,6 +1,6 @@
 # Dart SDK for the TelePay API
 
-![TelePay Dart](https://github.com/TelePay-cash/telepay-dart/blob/main/docs/cover.jpg?raw=true)
+![TelePay Dart](https://github.com/TelePay-cash/telepay-dart/blob/main/docs/cover.png?raw=true)
 
 TelePay client library for the Dart language, so you can easely process cryptocurrency payments using the REST API.
 
@@ -222,7 +222,7 @@ The library is made by ([emoji key](https://allcontributors.org/docs/en/emoji-ke
   <tr>
     <td align="center"><a href="https://github.com/yeikel16"><img src="https://avatars.githubusercontent.com/u/26438532?v=4" width="100px;" alt=""/><br /><sub><b>Yeikel Uriarte Arteaga</b></sub></a><br /><a href="https://github.com/TelePay-cash/telepay-dart/commits?author=yeikel16" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/luiscib3r"><img src="https://avatars.githubusercontent.com/u/32603705?v=4" width="100px;" alt=""/><br /><sub><b>Luis Antonio Correa Leyva </b></sub></a><br /><a href="https://github.com/TelePay-cash/telepay-dart/commits?author=luiscib3r" title="Code">💻</a></td>
-    <td align="center"><a href="https://lugodev.com"><img src="https://avatars.githubusercontent.com/u/18733370?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Carlos Lugones</b></sub></a><br /><a href="https://github.com/telepay-cash/telepay-dart/commits?author=lugodev" title="Mentoring">🧑‍🏫</a></td>
+    <td align="center"><a href="https://carloslugones.com"><img src="https://avatars.githubusercontent.com/u/18733370?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Carlos Lugones</b></sub></a><br /><a href="https://github.com/telepay-cash/telepay-dart/commits?author=CarlosLugones" title="Mentoring">🧑‍🏫</a></td>
   </tr>
 </table>
 <!-- markdownlint-restore -->
